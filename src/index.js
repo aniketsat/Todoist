@@ -1,13 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { TodoContextProvider } from "./context/TodoContext";
+import { TodosStateContextProvider } from "./context/TodosStateContext";
+import { CookiesProvider } from "react-cookie";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <TodoContextProvider>
+        <TodosStateContextProvider>
+          <App />
+        </TodosStateContextProvider>
+      </TodoContextProvider>
+    </CookiesProvider>
   </React.StrictMode>
 );
 
