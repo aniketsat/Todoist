@@ -4,6 +4,7 @@ import TodosStateBtnGrp from "./TodosStateBtnGrp";
 import { TodoContext } from "../context/TodoContext";
 import { TodosStateContext } from "../context/TodosStateContext";
 import { useCookies } from "react-cookie";
+import { v4 as uuidv4 } from "uuid";
 
 const TodoList = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["todos"]);
@@ -16,7 +17,7 @@ const TodoList = () => {
   useEffect(() => {
     todoDispatch({
       type: "SET_TODOS",
-      payload: cookies.todos,
+      payload: cookies.todos ? cookies.todos : [],
     });
   }, []);
 
@@ -39,10 +40,14 @@ const TodoList = () => {
     };
     setTodos(getTodos());
     removeCookie("todos");
-    setCookie("todos", todoState.todos, {
-      path: "/",
-      expires: new Date(2050, 1, 1),
-    });
+    if (todoState.todos === [] || todoState.todos === null) {
+      setCookie("todos", [], { path: "/" });
+    } else {
+      setCookie("todos", todoState.todos, {
+        path: "/",
+        expires: new Date(2050, 1, 1),
+      });
+    }
   }, [btnState, todoState]);
 
   const [title, setTitle] = useState("");
@@ -52,11 +57,12 @@ const TodoList = () => {
       todoDispatch({
         type: "ADD_TODO",
         payload: {
-          id: todoState.todos.length + 1,
+          id: uuidv4(),
           title,
           completed: false,
         },
       });
+      // setTodos([...todos, { id: uuidv4(), title, completed: false }]);
       setTitle("");
     }
   };
