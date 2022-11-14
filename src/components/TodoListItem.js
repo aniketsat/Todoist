@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { TodoContext } from "../context/TodoContext";
 
+import { FaTrash, FaEdit } from "react-icons/fa";
+
 const TodoListItem = ({ todo }) => {
   const [checked, setChecked] = useState(todo.completed);
   const [disabled, setDisabled] = useState(true);
@@ -59,10 +61,10 @@ const TodoListItem = ({ todo }) => {
         onKeyDown={handleUpdate}
       />
       <button className="list-item-button" onClick={handleEdit}>
-        E
+        <FaEdit />
       </button>
       <button className="list-item-button" onClick={handleDelete}>
-        X
+        <FaTrash />
       </button>
     </div>
   );
